@@ -10,13 +10,23 @@ const {
 
 
 test("shipProduct", async function () {
-  axiosMock.onPost(`${SHIPIT_SHIP_URL}`);
-  const shipId = await shipProduct({
-    productId: 1000,
-    name: "Test Tester",
-    addr: "100 Test St",
-    zip: "12345-6789",
+
+  axiosMock.onPost(`${SHIPIT_SHIP_URL}`).reply(200, {
+    receipt: {
+      itemId: 1526,
+      name: "Test Tester",
+      addr: "123 Test St.",
+      zip: "123456",
+      shipId: 9000
+    }
   });
 
-  expect(shipId).toEqual(expect.any(Number));
+  const shipId = await shipProduct({
+    productId: 1526,
+    name: "Test Tester",
+    addr: "123 Test St.",
+    zip: "123456",
+  });
+
+  expect(shipId).toEqual(9000);
 });
