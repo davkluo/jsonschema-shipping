@@ -22,4 +22,15 @@ describe("POST /", function () {
       .send();
     expect(resp.statusCode).toEqual(400);
   });
+
+  test("throws error if input does not satisfy schema", async function () {
+    const resp = await request(app).post("/shipments").send({
+      productId: '900',
+      name: 100,
+      addr: 200,
+      extra: 'heh'
+    });
+
+    expect(resp.statusCode).toEqual(400);
+  });
 });
